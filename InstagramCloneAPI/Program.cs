@@ -58,7 +58,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // ✅ your Angular frontend URL
+        policy.WithOrigins(
+                "http://localhost:4200", 
+                "https://localhost:4200",
+                "https://indrajithn06.github.io", // Your actual GitHub Pages URL
+                "https://*.github.io" // Allow all GitHub Pages subdomains
+              )
               .AllowAnyHeader()   // Allows any header.
               .AllowAnyMethod()  // Allows any HTTP method.
               .AllowCredentials();  // For Signal R
@@ -132,7 +137,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection(); // Re-enabled for HTTPS support
 
 // Enable CORS middleware before authentication and authorization
 app.UseCors("AllowAll");  // Apply CORS policy
