@@ -89,7 +89,20 @@ builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
 
 // Configure Entity Framework Core with PostgreSQL
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    try
+    {
+        var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        options.UseNpgsql(connectionString);
+    }
+    catch (Exception ex)
+    {
+        // Log the error but don't crash the application
+        Console.WriteLine($"Database configuration error: {ex.Message}");
+        // Use in-memory database as fallback
+        options.UseInMemoryDatabase("FallbackDatabase");
+    }
+});
 
 // Configure Swagger with JWT support
 builder.Services.AddSwaggerGen(c =>
