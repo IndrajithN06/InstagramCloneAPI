@@ -1,0 +1,43 @@
+services:
+  - type: web
+    name: instagram-clone-api
+    env: docker
+    plan: starter
+    region: oregon
+    healthCheckPath: /swagger
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+      - key: DB_SERVER
+        fromDatabase:
+          name: instagram-clone-db
+          property: host
+      - key: DB_NAME
+        fromDatabase:
+          name: instagram-clone-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: instagram-clone-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: instagram-clone-db
+          property: password
+      - key: JWT_KEY
+        sync: false
+      - key: JWT_ISSUER
+        value: InstagramCloneAPI
+      - key: JWT_AUDIENCE
+        value: InstagramCloneAPI
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+
+databases:
+  - name: instagram-clone-db
+    databaseName: instagramclonedb
+    user: instagramclone 
