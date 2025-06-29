@@ -144,11 +144,9 @@ var app = builder.Build();
 
 
 // Configure the HTTP request pipeline
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Always enable Swagger (for testing/demo; remove for real production)
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection(); // Re-enabled for HTTPS support
 
